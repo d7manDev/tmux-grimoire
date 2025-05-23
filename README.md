@@ -5,18 +5,27 @@
 
 A lightweight tmux plugin for summonable popup shells, aka `shpells`, driven by custom scripts.
 
+# Notes
+
+> [!NOTE]
+>
+> - This is a fork of [tmux-grimoire](https://github.com/navahas/tmux-grimoire) with some modifications to make it work with ~/.config/tmux/plugins/tpm path
+
 ![Preview](https://raw.githubusercontent.com/navahas/tmux-grimoire/assets/images/grimoire.png)
 
 ## Quickstart
 
 Install with TPM:
+
 ```tmux
 set -g @plugin 'navahas/tmux-grimoire'
 ```
+
 Press `prefix + I` to install.
+
 > **Note:** If you’d rather install manually, see [Manual Installation](#manual-installation) below.
 
-### Minimal config to get started:
+### Minimal config to get started
 
 ```tmux
 # Enable plugin
@@ -38,16 +47,20 @@ set -g @shpell-gitlog-position 'right'
 set -g @shpell-gitlog-width    '50%'
 set -g @shpell-gitlog-height   '100%'
 ```
+
 Now hit:
+
 - `prefix + q` —> your dev shell
 - `prefix + G` —> ephemeral gitlog shell
 
-#### Default keybinds:
+#### Default keybinds
+
 ```bash
 prefix + f    # Opens the main shpell
 prefix + F    # Opens an ephemeral shpell
 prefix + C    # Kills the current shpell window
 ```
+
 ---
 
 #### Manual Installation
@@ -55,10 +68,13 @@ prefix + C    # Kills the current shpell window
 ```bash
 git clone https://github.com/navahas/tmux-grimoire.git ~/.tmux/plugins/tmux-grimoire
 ```
+
 Add to `~/.tmux.conf`:
+
 ```tmux
 run-shell ~/.tmux/plugins/tmux-grimoire/grimoire.tmux
 ```
+
 ---
 
 ## Configuration
@@ -83,11 +99,13 @@ set -g @grimoire-path '$HOME/.config/grimoire' # default location
 ```
 
 #### Position Options
+
 ```bash
 top-left    | top-center    | top-right
 bottom-left | bottom-center | bottom-right
 left        | right         | center
 ```
+
 ---
 
 ## Custom Shpells
@@ -100,6 +118,7 @@ Create custom popup shells (`shpells`) to launch any script, CLI tool, or comman
 bind-key -T prefix <key> \
   run-shell "custom_shpell <standard|ephemeral> <shpell-name> '<command>' [--replay]"
 ```
+
 - `standard | ephemeral`: Choose either a persistent shell (standard) or close after use (ephemeral).
 - `shpell-name`: Custom label identifier (avoid spaces), e.g. `logs`, `build`, `test-log`, `unit_tests`.
 - `command`: Shell command or script path to be executed; omit for a blank shell.
@@ -110,11 +129,12 @@ bind-key -T prefix <key> \
 > To support repeated executions (e.g., running `cargo build` again), use the `--replay` flag.
 
 _Smart Replay: If `--replay` is set, the command is only re-sent if the shell is idle, ensuring that active processes aren't interrupted._
- 
+
 > [!TIP]
 > Check out the [grimoire](https://github.com/navahas/grimoire) repo for a collection of reusable scripts (shpells).
 
 Bindings Examples:
+
 ```tmux
 bind-key -T prefix E run-shell "custom_shpell standard personal-shpell"
 bind-key -T prefix b run-shell "custom_shpell standard rust-build 'cargo build' --replay"
@@ -127,15 +147,18 @@ bind-key -T prefix Q run-shell "custom_shpell ephemeral test-logs 'tail -f /var/
 ### Per-Shpell Options
 
 Override size, color, title, position per shpell.
+
 ```tmux
 set -g @shpell-<shpell-name>-color
 set -g @shpell-<shpell-name>-position
 set -g @shpell-<shpell-name>-width
 set -g @shpell-<shpell-name>-height
 ```
-> All unspecified fallback to global @grimoire-* values.
+
+> All unspecified fallback to global @grimoire-\* values.
 
 Examples:
+
 ```tmux
 # shpell-name: dev
 bind-key -T prefix q run-shell "custom_shpell standard dev"
@@ -157,6 +180,7 @@ set -g @shpell-gitlog-height '100%'
 `Q, W, E, R, T, Y, U, H, M, F, G`
 
 These keys are generally unbound in tmux and offer a smooth developer workflow.
+
 > Friendly Reminder: Uppercase bindings (like Q) require holding Shift, e.g. prefix + Shift + Q.
 
 ---
@@ -166,6 +190,7 @@ These keys are generally unbound in tmux and offer a smooth developer workflow.
 ### Window Position
 
 The following bind allows to move windows within your tmux session.
+
 ```tmux
 bind -r N swap-window -t -1 \; select-window -t -1
 bind -r M swap-window -t +1 \; select-window -t +1
@@ -183,6 +208,7 @@ Shpells respect existing splits. For best layouts, explicitly size/position or u
 ---
 
 #### Alternative
+
 If you are looking for a single feature-rich floating shell implementation, consider [tmux-floax](https://github.com/omerxx/tmux-floax).
 
 ## License
